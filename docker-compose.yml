@@ -1,0 +1,16 @@
+version: "2"
+
+services:
+    apache:
+        image: httpd:2.4
+        volumes:
+            - $PWD/tmp/apache2:/var/log/apache2
+            - $PWD/files/apache2/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
+        ports:
+            - 81:80
+    nginx:
+        image: nginx:1.11
+        volumes:
+            - $PWD/tmp/nginx:/var/log/nginx
+        ports:
+            - 82:80
