@@ -1,9 +1,17 @@
 version: "2"
 
 services:
+    fluentdui:
+        build: DockerfileFluentdUI
+        ports:
+            # fluentd
+            #- 24224:24224
+            # fluentd-ui
+            - 9292:9292
     apache:
         image: httpd:2.4
         volumes:
+            # mount log directory to host
             - $PWD/tmp/apache2:/var/log/apache2
             - $PWD/files/apache2/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
         ports:
@@ -11,6 +19,16 @@ services:
     nginx:
         image: nginx:1.11
         volumes:
+            # mount log directory to host
             - $PWD/tmp/nginx:/var/log/nginx
         ports:
             - 82:80
+    postgres:
+        image: postgres:9.4
+        volumes:
+            # configure postgres log to csv
+            - $PWD/files/postgres/data/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
+            # mount log directory to host
+            - $PWD/tmp/postgres:/var/log/postgresql
+        ports:
+            - 5432:5432
