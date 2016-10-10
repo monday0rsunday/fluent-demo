@@ -5,6 +5,8 @@ services:
         build:
             context: .
             dockerfile: DockerfileFluentdUI
+        volumes:
+            - $PWD/tmp:/tmp
         ports:
             # fluentd
             #- 24224:24224
@@ -29,7 +31,11 @@ services:
         image: postgres:9.4
         volumes:
             # configure postgres log to csv
-            - $PWD/files/postgres/data/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
+            # see configure problem with postgres image
+            # at https://github.com/docker-library/postgres/issues/105
+            # this pull https://github.com/docker-library/postgres/pull/120 doesn't work as expected
+            - $PWD/set-config.sh:/docker-entrypoint-initdb.d/set-config.sh
+            - $PWD/files/postgres/data/postgresql.conf:/postgresql.conf
             # mount log directory to host
             - $PWD/tmp/postgres:/var/log/postgresql
         ports:
