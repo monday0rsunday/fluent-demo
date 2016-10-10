@@ -2,7 +2,9 @@ version: "2"
 
 services:
     fluentdui:
-        build: DockerfileFluentdUI
+        build:
+            context: .
+            dockerfile: DockerfileFluentdUI
         ports:
             # fluentd
             #- 24224:24224
