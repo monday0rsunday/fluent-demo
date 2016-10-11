@@ -28,5 +28,5 @@ fluentd -c fluent.conf -p plugin-test
 * Demo Java
 
 ```
-java -DFLUENT_HOST=localhost -DFLUENT_PORT=24224 -jar java/target/spiralg-fluentd-test-0.0.0-jar-with-dependencies.jar
+java -DFLUENTD_HOST=localhost -DFLUENTD_PORT=24224 -jar java/target/spiralg-fluentd-test-0.0.0-jar-with-dependencies.jar
 ```

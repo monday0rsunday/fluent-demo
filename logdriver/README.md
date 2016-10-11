@@ -17,7 +17,7 @@ docker-compose build
 FLUENTD_HOST=10.22.20.129 docker-compose up
 ```
 
-* open (Fluentd-UI)[http://localhost:9292] with your browser
+* open [Fluentd-UI](http://localhost:9292) with your browser
 * login Fluentd-UI with username `admin` and password `changeme`
 * click 'Setup', then 'Create', then 'Start'
 * wait a few minutes, then you can try produce some logs
