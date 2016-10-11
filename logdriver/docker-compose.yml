@@ -1,0 +1,64 @@
+version: "2"
+
+services:
+    fluentd-ui:
+        build:
+            context: ./fluentd-ui
+        ports:
+            # fluentd
+            - 24224:24224
+            # fluentd-ui
+            - 9292:9292
+    fluentd:
+        build:
+            context: ./fluent
+        ports:
+            - 24225:24225
+        depends_on:
+            - fluentd-ui
+    apache:
+        image: httpd:2.4
+        volumes:
+            - $PWD/apache2/httpd.conf:/usr/local/apache2/conf/httpd.conf
+        ports:
+            - 81:80
+        depends_on:
+            - fluentd
+        links:
+            - fluentd:fluentd
+        logging:
+            driver: fluentd
+            options:
+                fluentd-address: ${FLUENTD_HOST}:24225
+                tag: apache.docker
+    nginx:
+        image: nginx:1.11
+        ports:
+            - 82:80
+        depends_on:
+            - fluentd
+        links:
+            - fluentd:fluentd
+        logging:
+            driver: fluentd
+            options:
+                fluentd-address: ${FLUENTD_HOST}:24225
+                tag: nginx.docker
+    postgres:
+        image: postgres:9.4
+        volumes:
+            # configure postgres log to csv
+            # see configure problem with postgres image
+            # at https://github.com/docker-library/postgres/issues/105
+            # this pull https://github.com/docker-library/postgres/pull/120 doesn't work as expected
+            - $PWD/postgres/set-config.sh:/docker-entrypoint-initdb.d/set-config.sh
+            - $PWD/postgres/postgresql.conf:/postgresql.conf
+        ports:
+            - 5432:5432
+        depends_on:
+            - fluentd
+        logging:
+            driver: fluentd
+            options:
+                fluentd-address: ${FLUENTD_HOST}:24225
+                tag: postgres.docker
