@@ -7,9 +7,11 @@ services:
             dockerfile: DockerfileFluentdUI
         volumes:
             - $PWD/tmp:/tmp
+            - $PWD/fluent.conf:/root/.fluentd-ui/fluent.conf
+            - $PWD/plugin-test:/etc/fluent/plugin
         ports:
             # fluentd
-            #- 24224:24224
+            - 24224:24224
             # fluentd-ui
             - 9292:9292
     apache:
