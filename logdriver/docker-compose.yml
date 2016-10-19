@@ -1,7 +1,7 @@
 version: "2"
 
 services:
-    fluentd-ui:
+    fluentd-ui-stdout:
         build:
             context: ./fluentd-ui
         ports:
@@ -9,13 +9,32 @@ services:
             - 24224:24224
             # fluentd-ui
             - 9292:9292
+    fluentd-ui-stderr:
+        build:
+            context: ./fluentd-ui
+        ports:
+            # fluentd
+            - 24223:24224
+            # fluentd-ui
+            - 9291:9292
+    fluentd-ui-other:
+        build:
+            context: ./fluentd-ui
+        ports:
+            # fluentd
+            - 24222:24224
+            # fluentd-ui
+            - 9290:9292
     fluentd:
         build:
             context: ./fluent
         ports:
             - 24225:24225
+            - 24226:24226
         depends_on:
-            - fluentd-ui
+            - fluentd-ui-stdout
+            - fluentd-ui-stderr
+            - fluentd-ui-other
     apache:
         image: httpd:2.4
         volumes:

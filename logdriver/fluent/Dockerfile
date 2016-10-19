@@ -1,6 +1,7 @@
 FROM ruby:2.2.3
 
 RUN gem install --no-document --version 0.4.0 fluentd-ui
+RUN fluent-gem install fluent-plugin-rewrite-tag-filter
 
 COPY fluent.conf /etc/fluent/fluent.conf
 
