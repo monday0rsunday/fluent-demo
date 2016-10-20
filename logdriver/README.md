@@ -31,6 +31,7 @@ curl 'http://localhost:82/invalid_url'
 ```
 
 * Use Docker Compose interacting with Java
+
 ```
 \# log4j
 docker-compose run java java -cp /usr/local/spiralg/java/target/spiralg-fluentd-test-0.0.0-jar-with-dependencies.jar vn.nal.spiralg.fluentd.Log4j2Main
