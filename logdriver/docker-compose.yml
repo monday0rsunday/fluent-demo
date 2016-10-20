@@ -5,32 +5,35 @@ services:
         build:
             context: ./fluentd-ui
         ports:
-            # fluentd
-            - 24224:24224
+            # fluentd, not published
+            # - 24224:24224
             # fluentd-ui
             - 9292:9292
     fluentd-ui-stderr:
         build:
             context: ./fluentd-ui
         ports:
-            # fluentd
-            - 24223:24224
+            # fluentd, not published
+            # - 24223:24224
             # fluentd-ui
             - 9291:9292
     fluentd-ui-other:
         build:
             context: ./fluentd-ui
         ports:
-            # fluentd
-            - 24222:24224
+            # fluentd, not published
+            # - 24222:24224
             # fluentd-ui
             - 9290:9292
     fluentd:
         build:
             context: ./fluent
+        links:
+            - fluentd-ui-stdout:fluentd-ui-stdout
+            - fluentd-ui-stderr:fluentd-ui-stderr
+            - fluentd-ui-other:fluentd-ui-other
         ports:
             - 24225:24225
-            - 24226:24226
         depends_on:
             - fluentd-ui-stdout
             - fluentd-ui-stderr
@@ -43,8 +46,6 @@ services:
             - 81:80
         depends_on:
             - fluentd
-        links:
-            - fluentd:fluentd
         logging:
             driver: fluentd
             options:
@@ -56,8 +57,6 @@ services:
             - 82:80
         depends_on:
             - fluentd
-        links:
-            - fluentd:fluentd
         logging:
             driver: fluentd
             options:
@@ -81,3 +80,10 @@ services:
             options:
                 fluentd-address: ${FLUENTD_HOST}:24225
                 tag: postgres.docker
+    java:
+        build:
+            context: ./java
+        links:
+            - fluentd:fluentd
+        depends_on:
+            - fluentd

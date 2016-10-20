@@ -6,5 +6,6 @@ RUN fluent-gem install fluent-plugin-rewrite-tag-filter
 COPY fluent.conf /etc/fluent/fluent.conf
 
 EXPOSE 24225
+EXPOSE 24226
 
 CMD ["/usr/local/bundle/bin/fluentd", "-c", "/etc/fluent/fluent.conf"]

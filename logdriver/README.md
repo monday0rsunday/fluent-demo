@@ -14,7 +14,7 @@ docker-compose build
 * start Docker Compose, if you are using Linux, just set FLUENTD_HOST to fluentd, otherwise please set IP of your host machine which docker-compose is running
 
 ```
-FLUENTD_HOST=10.22.20.129 docker-compose up
+FLUENTD_HOST=10.22.20.179 docker-compose up
 ```
 
 * open [Fluentd-UI](http://localhost:9292) with your browser
@@ -24,8 +24,13 @@ FLUENTD_HOST=10.22.20.129 docker-compose up
 
 ### Producing logs
 
-Just use your swiss army knives interacting with apache, nginx or postgres, e.g.
+* Just use your swiss army knives interacting with apache, nginx or postgres, e.g.
 
 ```
 curl 'http://localhost:82/invalid_url'
+```
+
+* Use Docker Compose interacting with Java
+```
+docker-compose run java java -cp /usr/local/spiralg/java/target/spiralg-fluentd-test-0.0.0-jar-with-dependencies.jar vn.nal.spiralg.fluentd.Log4j2Main
 ```
