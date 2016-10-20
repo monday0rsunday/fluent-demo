@@ -1,13 +1,22 @@
 <configuration>
 
-    <appender name="fluentd_socket" class="ch.qos.logback.classic.net.SocketAppender">
-        <remoteHost>localhost</remoteHost>
-        <port>24224</port>
-        <reconnectionDelay>10000</reconnectionDelay>
+    <appender name="syslog" class="ch.qos.logback.classic.net.SyslogAppender">
+        <syslogHost>fluentd</syslogHost>
+        <port>24227</port>
+        <facility>LOCAL0</facility>
+        <suffixPattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg</suffixPattern>
+    </appender>
+
+
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n</pattern>
+        </encoder>
     </appender>
 
     <root level="DEBUG">
-        <appender-ref ref="fluentd_socket" />
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="syslog"/>
     </root>
 
 </configuration>

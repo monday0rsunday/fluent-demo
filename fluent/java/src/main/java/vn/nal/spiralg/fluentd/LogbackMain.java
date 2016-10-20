@@ -13,7 +13,7 @@ public class LogbackMain {
 
     private static Logger LOG = LoggerFactory.getLogger(LogbackMain.class.getName());
 
-    public static void main(String args[]) {
+    public static void main(String args[])throws InterruptedException{
         String from = "cong nguyen";
         String to = "huy anh";
         if (args.length > 0)
