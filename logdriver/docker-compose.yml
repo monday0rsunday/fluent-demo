@@ -9,6 +9,8 @@ services:
             # - 24224:24224
             # fluentd-ui
             - 9292:9292
+        depends_on:
+            - fluentd-storage
     fluentd-ui-stderr:
         build:
             context: ./fluentd-ui
@@ -17,6 +19,8 @@ services:
             # - 24223:24224
             # fluentd-ui
             - 9291:9292
+        depends_on:
+            - fluentd-storage
     fluentd-ui-other:
         build:
             context: ./fluentd-ui
@@ -25,6 +29,8 @@ services:
             # - 24222:24224
             # fluentd-ui
             - 9290:9292
+        depends_on:
+            - fluentd-storage
     fluentd:
         build:
             context: ./fluent
@@ -38,6 +44,24 @@ services:
             - fluentd-ui-stdout
             - fluentd-ui-stderr
             - fluentd-ui-other
+    fluentd-storage:
+        build:
+            context: ./fluent
+        volumes:
+          - ./mysql-s3/fluent.conf:/etc/fluent/fluent.conf
+        depends_on:
+            - mysql
+    mysql:
+        image: mysql:5.7.16
+        ports:
+            - 3306
+        volumes:
+            - ./mysql-s3/fluent_schema.sql:/docker-entrypoint-initdb.d/fluent_schema.sql
+        environment:
+            - MYSQL_ALLOW_EMPTY_PASSWORD=true
+            - MYSQL_DATABASE=fluent
+            - MYSQL_USER=fluent
+            - MYSQL_PASSWORD=fluent_pass
     apache:
         image: httpd:2.4
         volumes:
