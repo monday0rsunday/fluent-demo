@@ -1,6 +1,6 @@
 ### Introduction
 
-See [Fluentd Demo Overview](assets/fluentd_demo.png)
+See ![Fluentd Demo Overview](assets/fluentd_demo.png)
 
 ### Prerequistion
 
